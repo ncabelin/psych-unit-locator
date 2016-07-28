@@ -1,0 +1,53 @@
+<div class="container" ng-controller="zipCtrl as zip">
+
+  <div class="container" ng-show="zip.empty">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+      <form name="zipcodeEntry" novalidate class="form-inline">
+          <div class="form-group">
+            <label for="zip">Please enter zipcode : </label>
+            <input ng-model="zipcode" id="zip">
+            <div class="alert alert-danger" role="alert" ng-show="zip.error">Invalid zipcode - Please try again</div>
+          </div>
+          <input type="submit" ng-click="zip.enter()" class="btn btn-success">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" ng-show="zip.checking">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        Checking zipcode...
+      </div>
+    </div>
+  </div>
+
+<span ng-hide="zip.empty">
+  <div class="row">
+    <div class="col-md-12">
+      <form class="form-inline">
+        <div class="form-group">
+          <input type="text" placeholder="Search" ng-model="zip.searchFilter"><br>
+          Sort by: <a href="" ng-click="zip.sortType = 'name'">Name</a>,
+          <a href="" ng-click="zip.sortType = 'distance'">Distance</a><br>
+        </div>
+      </form>
+      <br>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12" ng-repeat="loc in zip.locations | orderBy:zip.sortType | filter:zip.searchFilter">
+      <ul>
+        <li class="distance">{{ loc.distance }} miles</li>
+        <li>{{ loc.name }}</li>
+        <li><a href="tel:{{ loc.tel }}" class="btn btn-success">{{ loc.tel }}</a></li>
+        <li><a href="http://maps.apple.com/?q={{ loc.address }}">{{ loc.address }}</a></li>
+        <li ng-if="loc.ins">Insurance : {{ loc.ins }}</li>
+        <li style="display: inline-block">{{ loc.info }}</li>
+        <hr>
+      </ul>
+    </div>
+  </div>
+</span>
+</div>

@@ -1,0 +1,29 @@
+<div class="text-center" ng-show="!gps.gpsChecked">Checking Location...</div>
+<div class="text-center" ng-show="gps.gpsError">Error connecting to positioning system, please check your settings.</div>
+<div class="container" ng-controller="gpsCtrl as gps" ng-show="gps.gpsChecked">
+  <div class="row">
+    <div class="col-md-12">
+      <form class="form-inline" ng-hide="gps.gpsError">
+        <div class="form-group">
+          <input type="text" placeholder="Search" ng-model="gps.searchFilter"><br>
+          Sort by: <a href="" ng-click="gps.sortType = 'name'">Name</a>,
+          <a href="" ng-click="gps.sortType = 'distance'">Distance</a><br>
+        </div>
+      </form>
+      <br>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12" ng-repeat="loc in gps.locations | orderBy:gps.sortType | filter:gps.searchFilter">
+      <ul>
+        <li class="distance">{{ loc.distance }} miles</li>
+        <li>{{ loc.name }}</li>
+        <li><a href="tel:{{ loc.tel }}" class="btn btn-success">{{ loc.tel }}</a></li>
+        <li><a href="http://maps.apple.com/?q={{ loc.address }}">{{ loc.address }}</a></li>
+        <li ng-if="loc.ins">Insurance : {{ loc.ins }}</li>
+        <li style="display: inline-block">{{ loc.info }}</li>
+        <hr>
+      </ul>
+    </div>
+  </div>
+</div>
