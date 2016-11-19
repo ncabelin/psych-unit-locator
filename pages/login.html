@@ -1,24 +1,30 @@
 <div class="container" ng-controller="loginCtrl as login">
   <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-      <h3 ng-show="!login.loggedIn">Login to edit</h3>
-      <h3 ng-show="login.loggedIn">Currently signed-in</h3>
-      <form novalidate ng-submit="login.submit()" ng-show="!login.loggedIn">
-        <div class="form-group">
-          <label for="login">E-mail Address</label>
-          <input type="text" id="login" class="form-control" placeholder="E-mail">
+    <div class="col-md-12">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <h3 ng-show="!login.loggedIn">Login to edit</h3>
+            <form novalidate ng-submit="login.submit()" ng-show="!login.loggedIn">
+              <div class="form-group">
+                <label for="login">E-mail Address</label>
+                <input type="text" id="login" class="form-control" placeholder="E-mail">
+              </div>
+              <div class="form-group">
+                <label for="pwd">Password</label>
+                <input type="password" id="pwd" class="form-control" placeholder="Password">
+              </div>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="pwd">Password</label>
-          <input type="password" id="pwd" class="form-control" placeholder="Password">
-        </div>
-          <button type="submit" class="btn btn-success">Submit</button>
-      </form>
+      </div>
 
       <div ng-show="login.loggedIn">
         <button ng-click="login.signout()" class="btn btn-danger">Sign-out</button>
         <button ng-click="login.write()" class="btn btn-success">Save changes</button>
         <button ng-click="login.add()" class="btn btn-info circular"><i class="fa fa-plus"></i></button>
+        <h5 ng-show="login.loggedIn">( {{ login.locations.length }} facilities )</h5>
       </div>
       <div class="alert alert-danger" id="alert" ng-show="login.error"></div>
     </div>
@@ -29,7 +35,7 @@
     <div class="col-md-6 col-md-offset-3">
 
       <input type="text" placeholder="Search" ng-model="login.searchFilter"> Sort by: <a href="" ng-click="login.sortType = 'name'" id="sortName">Name</a><br><br>
-      
+
       <form ng-show="login.adding">
         <div class="form-group">
           <input ng-model="login.added.name" placeholder="Name" ng-required class="form-control">
@@ -52,8 +58,10 @@
         <div class="form-group">
           <input type="number" ng-model="login.added.long" placeholder="Longitude" ng-required class="form-control">
         </div>
+        <button ng-if="login.added.address" ng-click="login.findCoordinates()" class="btn btn-success">Get coordinates</button>
         <button ng-click="login.cancelAdd()" class="btn btn-success circular"><i class="fa fa-times"></i></button>
         <button ng-click="login.okAdd()" class="btn btn-success circular"><i class="fa fa-check"></i></button>
+        <div class="alert alert-danger" id="alert" ng-show="login.errorRequire">Error: please fill up all fields</div>
       </form><br>
 
     </div>
@@ -61,6 +69,7 @@
 
   <div class="row">
     <div class="col-md-6 col-lg-6" ng-repeat="loc in login.locations | orderBy:login.sortType | filter: login.searchFilter">
+      <div class="well">
         <ul ng-hide="editing" class="clickable">
           <li>Name : {{ loc.name }}</li>
           <li>Tel : {{ loc.tel }}</li>
@@ -104,6 +113,7 @@
           <button ng-click="editing = true" class="btn btn-info circular" ng-show="!editing"><i class="fa fa-pencil"></i></button>
           <br><br>
         </div>
+      </div>
     </div>
   </div>
 </div>

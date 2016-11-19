@@ -1,7 +1,3 @@
-body {
-  font-family: "Open Sans", sans-serif;
-}
-
 .navbar-fixed-top, .navOptions {
   background-color: rgb(178, 192, 210);
   height: 100%;
@@ -20,11 +16,6 @@ background: -webkit-linear-gradient(left,  rgba(108,142,171,1) 0%,rgba(92,184,92
 background: linear-gradient(to right,  rgba(108,142,171,1) 0%,rgba(92,184,92,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#337ab7', endColorstr='#5cb85c',GradientType=1 ); /* IE6-9 */
 
-}
-
-#title, .modal-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 20px;
 }
 
 .clickable:hover {

@@ -87,7 +87,6 @@ angular
     }
 
     console.log('service readFirebase used... ');
-    //console.log(self.loca);
 
     return self.loca;
   });
@@ -97,7 +96,7 @@ angular
 .controller('mainCtrl', function() {
 })
 
-.controller('zipCtrl', function($scope, $http, calculate, readFirebase) {
+.controller('zipCtrl', ['$scope', '$http', 'calculate', 'readFirebase', function($scope, $http, calculate, readFirebase) {
   var self = this;
   self.emptyLoc = false;
   self.empty = true;
@@ -127,9 +126,9 @@ angular
   self.sortType = 'distance';
   self.searchTerm = '';
 
-})
+}])
 
-.controller('gpsCtrl', function($scope, calculate, readFirebase) {
+.controller('gpsCtrl', ['$scope', 'calculate', 'readFirebase', function($scope, calculate, readFirebase) {
   var self = this;
   self.gpsChecked = false;
   self.gpsError = false;
@@ -165,27 +164,52 @@ angular
   }();
   self.sortType = 'distance';
   self.searchTerm = '';
-})
+}])
 
-.controller('loginCtrl', function($scope, $http, readFirebase) {
+.controller('loginCtrl', ['$scope', '$http', 'readFirebase', function($scope, $http, readFirebase) {
   var self = this;
   // error signing in toggle
   self.error = false;
   self.loggedIn = false;
 
   // add location
+  self.errorRequire = false;
   self.adding = false;
-  self.added = {};
+  self.added = {}; // object to store add field
   self.add = function() {
       self.adding = true;
       self.added = {};
   };
   self.okAdd = function() {
-    self.adding = false;
-    self.added.key = firebase.database().ref().child('locations').push().key;
-    self.locations.unshift(self.added);
-    readFirebase.loca = self.locations;
+    if (!self.added.info) {
+      self.added.info = '';
+    }
+    if (!self.added.ins) {
+      self.added.ins = '';
+    }
+    if (self.added.lat && self.added.long) {
+      self.adding = false;
+      self.added.key = firebase.database().ref().child('locations').push().key;
+      self.locations.unshift(self.added);
+      readFirebase.loca = self.locations;
+    } else {
+      self.errorRequire = true;
+    }
   };
+
+  // form autocomplete for looking up coordinates
+  self.findCoordinates = function() {
+    $http
+      .get('https://googlygps.herokuapp.com/' + self.added.address)
+      .success(function(dat) {
+        self.added.long = dat.lng;
+        self.added.lat = dat.lat;
+      })
+      .error(function(data) {
+        console.log('error');
+      });
+  };
+
   self.cancelAdd = function() {
     self.adding = false;
     self.added = null;
@@ -194,8 +218,9 @@ angular
   self.locations = readFirebase.loca;
 
   setTimeout(function() {
-    $('#sortName').trigger('click');
-    console.log('boo');
+    $scope.$apply(function() {
+      self.locations = readFirebase.loca;
+    });
   }, 1000);
 
   function editLocation(uid, name, address, tel, info, ins, lat, long) {
@@ -298,12 +323,12 @@ angular
     self.loggedIn = false;
     self.error = false;
   };
-})
+}])
 
 .controller('helpCtrl', function() {
 })
 
-.controller('contactsCtrl', function($scope) {
+.controller('contactsCtrl', ['$scope', function($scope) {
   var self = this;
   firebase.database().ref('contacts').once('value').then(function(dataObj) {
     var contactsVal = dataObj.val(), contacts = [];
@@ -316,7 +341,7 @@ angular
       self.contacts = contacts;
     });
   });
-})
+}])
 
 .controller('aboutCtrl', function() {
 });

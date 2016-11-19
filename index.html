@@ -9,9 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 
-    <!-- google Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Playfair+Display' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+    <!-- iOS icons -->
     <link rel="apple-touch-icon" href="images/Icon@2x.png">
     <link rel="shortcut icon" type="image/x-icon" href="images/plu.ico" />
 
@@ -20,8 +18,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <!-- angularJS, googleAPIs, jquery and bootstrap jquery js -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
     <script src="https://code.angularjs.org/1.5.7/angular-route.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
@@ -37,7 +33,122 @@
     </script>
     <script src="js/app.js"></script>
 
-    <link rel="stylesheet" href="css/style.css" />
+    <style>
+    body {
+      background: url('images/hospital.jpg') fixed center no-repeat;
+      background-size: cover;
+      color: black;
+    }
+
+    .navbar-fixed-top, .navOptions {
+      background-color: rgb(178, 192, 210);
+      height: 100%;
+    }
+
+    .navbar-default .navbar-nav>li>a,
+    .footnote {
+        color: black;
+    }
+
+    .headerNav {
+      /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#337ab7+0,5cb85c+100 */
+    background: rgba(108,142,171,1); /* Old browsers */
+    background: -moz-linear-gradient(left,  rgba(108,142,171,1) 0%, rgba(92,184,92,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  rgba(108,142,171,1) 0%,rgba(92,184,92,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  rgba(108,142,171,1) 0%,rgba(92,184,92,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#337ab7', endColorstr='#5cb85c',GradientType=1 ); /* IE6-9 */
+
+    }
+
+    .clickable:hover {
+      color: black;
+    }
+
+    .circular {
+      border-radius: 100%;
+    }
+
+    .selections {
+      margin-top: 150px;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    table {
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    td,
+    a {
+      cursor: hand;
+      cursor: pointer;
+    }
+
+    table, .navbar-fixed-top, button {
+      -webkit-box-shadow: 6px 7px 13px -4px rgba(184,184,184,1);
+      -moz-box-shadow: 6px 7px 13px -4px rgba(184,184,184,1);
+      box-shadow: 6px 7px 13px -4px rgba(184,184,184,1);
+    }
+
+    td {
+      border: 1px solid #286090;
+      padding: 3px;
+
+    }
+
+    td.name:hover {
+      background-color: #286090;
+      color: white;
+    }
+
+    #tableSource {
+      margin-top: 100px;
+    }
+
+    #loading, .formSearch {
+      display: none;
+    }
+
+    .navOptions {
+      text-align: center;
+    }
+
+    #inputAddress {
+      width: 100px;
+    }
+
+    .distance {
+      color: black;
+      font-weight: bold;
+    }
+
+    .btn {
+      margin-bottom: 10px;
+    }
+
+    .view {
+      margin-bottom: 50px;
+    }
+
+    .loading {
+      height: 30px;
+      display: inline;
+    }
+
+    .footerImg {
+      height: 14px;
+    }
+
+    @media screen and (max-width:540px) {
+      .navbar-brand {
+        font-size:0.8em;
+      }
+    }
+    </style>
 </head>
 <body ng-app="pulApp">
   <nav class="navbar navbar-default headerNav">
@@ -50,7 +161,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#/home">L.A. County Psych-unit Locator</a>
+        <a class="navbar-brand menuItem" href="#/home">L.A. County Psych-unit Locator</a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -82,6 +193,8 @@
     </div>
   </div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <script>
   $(document).ready(function() {
     var menuBtn = $('.menuItem'),
